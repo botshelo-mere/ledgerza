@@ -1,0 +1,33 @@
+[project]
+name = "finparse"
+version = "0.1.0"
+description = "South African bank csv parser and expense summariser"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+	{name = "Botshelo Mere"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+]
+keywords = ["finance", "csv", "banking", "cli"]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/botshelo-mere"
+Repository = "https://github.com/botshelo-mere/finparse.git"
+Issues = "https://github.com/botshelo-mere/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["finparse"]
