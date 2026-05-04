@@ -147,7 +147,14 @@ For full user guide - see [usage.md](docs/usage.md) for details.
   "errors": []
 }
 ```
+---
 
+## Dev / Testing
+
+```bash
+# Using uv
+uv sync --extra dev
+```
 ---
 
 ## License

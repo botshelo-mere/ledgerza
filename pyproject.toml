@@ -34,6 +34,7 @@ ledgerza= "ledgerza.cli:main"
 Repository = "https://github.com/botshelo-mere/ledgerza.git"
 Issues = "https://github.com/botshelo-mere/ledgerza/issues"
 License = "https://github.com/botshelo-mere/ledgerza/blob/main/LICENSE.md"
+Documents = "https://github.com/botshelo-mere/ledgerza/docs"
 
 
 [build-system]
