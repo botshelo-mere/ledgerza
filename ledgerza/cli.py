@@ -22,27 +22,79 @@ def build_parser() -> argparse.ArgumentParser:
 
     # Output
     out = p.add_argument_group("output")
-    out.add_argument("--output", "-o", type=Path, help="Output JSON file")
-    out.add_argument("--no-export", action="store_true")
-    out.add_argument("--no-summary", action="store_true")
-    out.add_argument("--hide-errors", action="store_true")
+    out.add_argument(
+        "--output", "-o",
+        type=Path,
+        help="Output JSON file"
+        )
+    out.add_argument(
+        "--no-export",
+        action="store_true",
+        help="Print summary only — skip JSON export."
+        )
+    out.add_argument(
+        "--no-summary", 
+        action="store_true",
+        help="Export JSON only — skip terminal summary."
+        )
+    out.add_argument(
+        "--hide-errors", 
+        action="store_true",
+        help="Suppress per-row error detail in summary output."
+        )
 
     # Folder
     folder = p.add_argument_group("folder")
-    folder.add_argument("--recursive", "-r", action="store_true")
+    folder.add_argument(
+        "--recursive", "-r", 
+        action="store_true",
+        help="Recurse into sub-directories when a folder is given."
+        )
 
     # Cleaning
     clean = p.add_argument_group("cleaning")
-    clean.add_argument("--dedup", action="store_true")
+    clean.add_argument(
+        "--dedup", 
+        action="store_true",
+        help="Remove duplicate transactions (matched by date + description + amount)."
+        )
 
-    # Filters
-    filt = p.add_argument_group("filters")
-    filt.add_argument("--from", dest="from_date")
-    filt.add_argument("--to", dest="to_date")
-    filt.add_argument("--min-amount", type=float)
-    filt.add_argument("--max-amount", type=float)
-    filt.add_argument("--keyword")
-    filt.add_argument("--category")
+    # Filters   
+    filt = p.add_argument_group("filters")  
+    filt.add_argument(  
+        "--from",  
+        dest="from_date",  
+        metavar="YYYY-MM-DD",  
+        help="Include transactions on or after this date.",  
+    )  
+    filt.add_argument(  
+        "--to",  
+        dest="to_date",  
+        metavar="YYYY-MM-DD",  
+        help="Include transactions on or before this date.",  
+    )  
+    filt.add_argument(  
+        "--min-amount",  
+        type=float,  
+        metavar="AMOUNT",  
+        help="Include transactions with amount >= AMOUNT.",  
+    )  
+    filt.add_argument(  
+        "--max-amount",  
+        type=float,  
+        metavar="AMOUNT",  
+        help="Include transactions with amount <= AMOUNT.",  
+    )  
+    filt.add_argument(  
+        "--keyword",  
+        metavar="TEXT",  
+        help="Include only transactions whose description contains TEXT.",  
+    )  
+    filt.add_argument(  
+        "--category",  
+        metavar="CAT",  
+        help="Include only transactions matching this category.",  
+    )  
 
     return p
 
@@ -168,10 +220,10 @@ def main(argv: list[str] | None = None) -> int:
     # 4. Output
     if not args.no_summary:
         from .reporter import print_summary
-        print_summary(transactions, errors, "merged", meta, not args.hide_errors)
+        print_summary(transactions, errors, "path", meta, not args.hide_errors)
 
     if not args.no_export:
-        out = args.output or Path("output") / "merged.json"
+        out = args.output or Path("output") / "no-export.json"
         export(transactions, errors, meta, out)
 
     # Exit logic
