@@ -18,35 +18,43 @@ Introducing `ledgerZA` - a Python toolkit for transforming South African bank st
 $ ledgerza --file capitec_feb.csv
 
 ============================================================
-ledgerZA REPORT — capitec_feb.csv
-Bank: Capitec
-============================================================
-Transactions : 82
-Total earned : R 26569.74
-Total spent  : R -23837.80
-Net          : R 2731.94
-Date range   : 2026-03-01 → 2026-04-21
+Transactions after cleaning: 62 (filtered 0)
 
-Category          	Txns     Total
----------------------	-----	--------------
-alcohol              	2  	R -240.00
-cash deposit         	2  	R 3000.00
-cash withdrawal      	2 	R -2800.00
-cellphone            	3   	R -18.00
-children & dependants   2  	R -300.00
-clothing & shoes     	1  	R -231.00
-digital payments     	3 	R -1100.00
-fees                	19   	R -94.50
-groceries           	10 	R -7583.45
-interest             	1     	R 2.09
-other income         	9 	R 19250.00
-personal care        	1   	R -99.18
-public transport     	4  	R -148.00
-restaurants          	2 	R -1026.00
-takeaways            	2  	R -309.60
-transfer            	17  	R 1785.08
-uncategorised        	2 	R -7450.00
-============================================================
+════════════════════════════════════════════════════
+  LedgerZA Report  -  statement.csv
+  Bank: CAPITEC
+════════════════════════════════════════════════════
+  Transactions :     62
+  Total in     : R  26569.74
+  Total out    : R -23837.80
+  Net          : R   2731.94
+  Date range   : 2026-03-01  →  2026-04-21
+
+  Category                Txns         Total
+  ----------------------  -----  ------------
+  groceries                 10  R  -7583.45
+  uncategorised              1  R  -7450.00
+  cash withdrawal            2  R  -2800.00
+  digital payments           3  R  -1100.00
+  restaurants                2  R  -1026.00
+  takeaways                  2  R   -309.60
+  children & dependants      2  R   -300.00
+  alcohol                    2  R   -240.00
+  clothing & shoes           1  R   -231.00
+  public transport           4  R   -148.00
+  personal care              1  R    -99.18
+  cellphone                  3  R    -18.00
+  interest                   1  R      2.09
+  transfer                  17  R   1785.08
+  cash deposit               2  R   3000.00
+  other income               9  R  19250.00
+
+
+  ⚠  2 row(s) skipped or failed:
+    [capitec] Row 14: Both 'Money In' and 'Money Out' are empty
+    [capitec] Row 15: Both 'Money In' and 'Money Out' are empty
+
+════════════════════════════════════════════════════
 
 ```
 
@@ -68,9 +76,11 @@ uncategorised        	2 	R -7450.00
 
 ### Supported Banks
 
-| Bank    | Notes |
-|---------|-------|
-| Capitec | split money in/money out columns |
+
+| Bank    | Parser accuracy | Delimiter support | Notes |
+|---------|----------------|-------------------|-------|
+| FNB     | Spec-accurate  | comma, tab, pipe, semicolon | Parses full header block (account number, opening/closing balance, debit/credit totals) |
+| Capitec | Spec-accurate  | comma, semicolon, tab, pipe | Reads pre-supplied categories; Money In / Money Out columns |
 
 > Support may vary depending on CSV format variations between account types and export settings.
 
@@ -81,7 +91,18 @@ uncategorised        	2 	R -7450.00
 ```bash
 git clone https://github.com/botshelo-mere/ledgerza.git
 cd ledgerza
-pip install -e .
+```
+
+Using `pip`
+```bash
+pip install -e ".[dev]"
+```
+
+Using `uv` (recommended).  
+Install `uv` (if not already) or see [official installation guides](https://docs.astral.sh/uv/getting-started/installation/) 
+```bash
+pip install uv
+uv sync
 ```
 
 ## Usage
@@ -93,6 +114,41 @@ ledgerza --file statement.csv
 # Specify file path
 ledgerza -f finances/capitec_feb.json
 ```
+
+For full user guide - see [usage.md](docs/usage.md) for details. 
+
+---
+
+## JSON output schema
+
+```json
+{
+  "meta": {
+    "account_number": "12345678901",
+    "account_nickname": "My Cheque Account",
+    "statement_date": "2026-02-16",
+    "opening_balance": 1010.89,
+    "closing_balance": 22.39,
+    "total_debits": -988.50,
+    "total_credits": 1000.04
+  },
+  "transactions": [
+    {
+      "date": "2026-02-16",
+      "description": "PAYMENT RECEIVED",
+      "reference": "REF001",
+      "amount": 1000.0,
+      "service_fee": 0.0,
+      "balance": 2010.89,
+      "category": "income",
+      "source": "fnb"
+    }
+  ],
+  "errors": []
+}
+```
+
+---
 
 ## License
 
