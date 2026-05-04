@@ -29,7 +29,6 @@ ledgerza/
 │   ├── test_cleaner.py
 │   └── test_reporter.py
 ├── README.md
-├── ROADMAP.md
 ├── LICENSE.md
 ├── .gitignore
 └── pyproject.toml
@@ -105,52 +104,70 @@ Transactions after cleaning: 62 (filtered 0)
 
 ════════════════════════════════════════════════════
 JSON exported → output\statement.json
+
 ```
 
 
 ```bash
 # Single file
-ledgerza statement.csv
+ledgerza -f statement.csv
 
 # Folder — auto-detect all CSVs
-ledgerza exports/
+ledgerza --file exports/
 
 # Folder — recursive
-ledgerza exports/ --recursive
+ledgerza -f exports/ --recursive
 
 # Specify output path
-ledgerza statement.csv --output results/feb.json
+ledgerza --file statement.csv --output results/feb.json
 
 # Summary only — no JSON written
-ledgerza statement.csv --no-export
+ledgerza -f statement.csv --no-export
 
 # Suppress errors in terminal output
-ledgerza statement.csv --hide-errors
+ledgerza -f statement.csv --hide-errors
 ```
 
 ### Filters
 
 ```bash
 # Date range
-ledgerza statement.csv --from 2026-01-01 --to 2026-01-31
+ledgerza -f  statement.csv --from 2026-01-01 --to 2026-01-31
 
 # Amount range (negative = debits)
-ledgerza statement.csv --min-amount -500 --max-amount 0
+ledgerza -f statement.csv --min-amount -500 --max-amount 0
 
 # Description keyword
-ledgerza statement.csv --keyword woolworths
+ledgerza -f statement.csv --keyword woolworths
 
 # Category
-ledgerza statement.csv --category groceries
+ledgerza-f statement.csv --category groceries
 ```
 
 ### Cleaning
 
 ```bash
 # Remove duplicates (date + description + amount fingerprint)
-ledgerza statement.csv --dedup
-
-# Merge + dedup across files
-ledgerza jan.csv feb.csv --merge --dedup
+ledgerza --file statement.csv --dedup
 ```
+
 ---
+
+## Development
+### Running Tests
+
+To install optional dependencies for running tests.
+```bash
+uv add --dev pytest   # install pytest for running tests
+```
+
+```bash
+# All tests
+uv run pytest
+
+# Verbose output
+uv run pytest -v
+
+# Run a specific test function
+uv run pytest tests/test_cleaner.py::TestDeduplicate::test_no_duplicates
+```
