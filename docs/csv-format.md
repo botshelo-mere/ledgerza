@@ -10,7 +10,7 @@
 
 ### FNB — Online Banking export
 
-FNB's CSV export has two sections. The structure below is from the official FNB File Specification (July 2012).
+FNB's CSV export has two sections. The structure below is from the official [FNB File Specification (July 2012)](https://www.online.fnb.co.za/rhelp_0_15/Downloads/Statement_File_Specifications/Statement_Type_-_CSV.pdf).
 
 **Header block (key-value rows):**
 ```
