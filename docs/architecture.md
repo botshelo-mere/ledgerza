@@ -20,7 +20,7 @@ ledgerza/
 ├── reporter.py        print_summary(), export_json()
 └── parsers/
     ├── base.py        BaseParser ABC + ParseResult container
-    ├── fnb.py         FNB parser (spec: July 2012)
+    ├── fnb.py         FNB parser
     └── capitec.py     Capitec parser
 ```
 
