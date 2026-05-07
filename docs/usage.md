@@ -4,25 +4,30 @@
 
 ```
 ledgerza/
+├── assets/
+│   ├── cli_filter-flag.png
+│   ├── cli_help-flag.png
+│   ├── csv-format.md
+├── docs/
+│   ├── architecture.md
+│   ├── cli.md
+│   ├── csv-format.md
+│   ├── parsers.md
+│   └── usage.md
 ├── ledgerza/
-│   ├── __init__.py          public API
-│   ├── cli.py               CLI — argparse entry point
-│   ├── detector.py          format sniffing + folder scanning
-│   ├── normalizer.py        parse_date, parse_amount, sniff_delimiter
-│   ├── schema.py            make_transaction, make_error, make_statement_meta
-│   ├── categorizer.py       keyword rule engine
-│   ├── cleaner.py           dedup, filters, transformations
-│   ├── reporter.py          terminal summary + JSON export
+│   ├── __init__.py          # public API
+│   ├── cli.py               # CLI — argparse entry point
+│   ├── detector.py          # format sniffing + folder scanning
+│   ├── normalizer.py        # parse_date, parse_amount, sniff_delimiter
+│   ├── schema.py            # make_transaction, make_error, make_statement_meta
+│   ├── categorizer.py       # keyword rule engine
+│   ├── cleaner.py           # dedup, filters, transformations
+│   ├── reporter.py          # terminal summary + JSON export
 │   └── parsers/
-│       ├── base.py          BaseParser ABC + ParseResult
-│       ├── fnb.py           FNB — spec-accurate (July 2012 spec)
-│       └── capitec.py       Capitec — Money In/Out column spec
+│       ├── base.py          # BaseParser ABC + ParseResult
+│       ├── fnb.py           # FNB — Credit/Debit column spec
+│       └── capitec.py       # Capitec — Money In/Out column spec
 ├── tests/
-│   ├── fixtures/
-│   │   ├── fnb_statement.csv
-│   │   ├── fnb_statement_tab.csv
-│   │   ├── capitec_statement.csv
-│   │   └── capitec_semicolon.csv
 │   ├── test_normalizer.py
 │   ├── test_parsers.py
 │   ├── test_categorizer.py
@@ -38,6 +43,7 @@ ledgerza/
 `uv` is a fast Python package manager - replaces pip + venv in one tool.
 
 1. Install `uv` (if not already) or see [official installation guides](https://docs.astral.sh/uv/getting-started/installaton)
+
 ``` bash
 pip install uv
 
@@ -104,7 +110,6 @@ Transactions after cleaning: 62 (filtered 0)
 
 ════════════════════════════════════════════════════
 JSON exported → output\statement.json
-
 ```
 
 
@@ -132,7 +137,7 @@ ledgerza -f statement.csv --hide-errors
 
 ```bash
 # Date range
-ledgerza -f  statement.csv --from 2026-01-01 --to 2026-01-31
+ledgerza -f statement.csv --from 2026-01-01 --to 2026-01-31
 
 # Amount range (negative = debits)
 ledgerza -f statement.csv --min-amount -500 --max-amount 0
@@ -154,9 +159,11 @@ ledgerza --file statement.csv --dedup
 ---
 
 ## Development
+
 ### Running Tests
 
-To install optional dependencies for running tests.
+Install optional dependencies for running tests.
+
 ```bash
 uv add --dev pytest   # install pytest for running tests
 ```
